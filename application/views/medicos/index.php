@@ -7,9 +7,13 @@
 </head>
 <body>
 	<div class="container">
-
-		<p class="alert-success"><?= $this->session->flashdata("success") ?></p>
-		<p class="alert-danger"><?= $this->session->flashdata("danger") ?></p>
+		
+		<?php if($this->session->flashdata("success")) : ?>
+			<p class="alert alert-success"><?= $this->session->flashdata("success") ?></p>
+		<?php endif ?>
+		<?php if($this->session->flashdata("danger")) : ?>
+			<p class="alert alert-danger"><?= $this->session->flashdata("danger") ?></p>
+		<?php endif ?>
 
 		<h1>Médicos</h1>
 		<table class="table">
@@ -22,6 +26,7 @@
 			<?php endforeach ?>
 		</table>
 		<?php if($this->session->userdata("usuario_logado")) : ?>
+			<?= anchor('medicos/formulario', 'Novo Médico', array("class" => "btn btn-primary")) ?>
 			<?= anchor('login/logout', 'Logout', array("class" => "btn btn-primary")) ?>
 		<?php else : ?>
 		<h1>Login</h1>
@@ -65,7 +70,6 @@
 			"id" => "nome",
 			"class" => "form-control",
 			"maxlenght" => "255"
-
 		));
 
 		echo form_label("Email", "email");
@@ -74,7 +78,6 @@
 			"id" => "email",
 			"class" => "form-control",
 			"maxlenght" => "255"
-
 		));
 
 		echo form_label("Senha", "senha");
@@ -83,7 +86,6 @@
 			"id" => "senha",
 			"class" => "form-control",
 			"maxlenght" => "255"
-
 		));
 
 		echo form_button(array(
