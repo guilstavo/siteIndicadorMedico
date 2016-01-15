@@ -8,7 +8,7 @@ class Medicos extends CI_Controller{
 		$medicos = $this->medicos_model->buscaTodos();
 
 		$dados = array("medicos" => $medicos);
-		$this->load->helper(array("url", "form"));
+		$this->load->helper(array("form"));
 		$this->load->view("medicos/index.php",$dados);
 	}
 }
