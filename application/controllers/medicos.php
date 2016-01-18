@@ -2,6 +2,14 @@
 
 class Medicos extends CI_Controller{
 
+	public function mostra($id){
+		$this->load->model("medicos_model");
+		$medico = $this->medicos_model->busca($id);
+		$dados = array("medico" => $medico);
+		$this->load->helper("typography");
+		$this->load->view("medicos/mostra", $dados);
+	}
+
 	public function index(){
 		
 		$this->load->model('medicos_model');

@@ -19,9 +19,9 @@
 		<table class="table">
 			<?php foreach($medicos as $medico) : ?>
 				<tr>
-					<td><?= $medico['nome'] ?></td>
-					<td><?= $medico['especialidade'] ?></td>
-					<td><?= $medico['telefone'] ?></td>
+					<td><?= anchor("medicos/{$medico['id']}", html_escape($medico['nome'])) ?></td>
+					<td><?= html_escape($medico['especialidade']) ?></td>
+					<td><?= html_escape($medico['telefone']) ?></td>
 				</tr>
 			<?php endforeach ?>
 		</table>
