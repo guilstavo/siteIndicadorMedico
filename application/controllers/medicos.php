@@ -24,14 +24,25 @@ class Medicos extends CI_Controller{
 	}
 
 	public function novo(){
-		$medico = array(
-			"nome" => $this->input->post("nome"),
-			"especialidade" => $this->input->post("especialidade"),
-			"telefone" => $this->input->post("telefone")
-		);
-		$this->load->model("medicos_model");
-		$this->medicos_model->salva($medico);
-		$this->session->set_flashdata("success", "Médico cadastrado com sucesso.");
-		redirect("/");
+		$this->load->library("form_validation");
+		$this->form_validation->set_rules("nome", "nome", "required");
+		$this->form_validation->set_rules("especialidade", "especialidade", "required");
+		$this->form_validation->set_rules("telefone", "telefone", "required");
+		$this->form_validation->set_error_delimiters("<p class='alert alert-danger'>", "</p>");
+		$sucesso = $this->form_validation->run();
+		if($sucesso){
+			$medico = array(
+				"nome" => $this->input->post("nome"),
+				"especialidade" => $this->input->post("especialidade"),
+				"telefone" => $this->input->post("telefone")
+			);
+			$this->load->model("medicos_model");
+			$this->medicos_model->salva($medico);
+			$this->session->set_flashdata("success", "Médico cadastrado com sucesso.");
+			redirect("/");
+		}else{
+			$this->load->view("medicos/formulario");
+		}
+		
 	}
 }
