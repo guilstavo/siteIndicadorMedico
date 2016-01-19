@@ -7,20 +7,20 @@ class Medicos extends CI_Controller{
 		$medico = $this->medicos_model->busca($id);
 		$dados = array("medico" => $medico);
 		$this->load->helper("typography");
-		$this->load->view("medicos/mostra", $dados);
+		$this->load->template("medicos/mostra", $dados);
 	}
 
 	public function index(){
 		
 		$this->load->model('medicos_model');
 		$medicos = $this->medicos_model->buscaTodos();
-
 		$dados = array("medicos" => $medicos);
-		$this->load->view("medicos/index.php",$dados);
+		$this->load->template("medicos/index.php",$dados);
+		
 	}
 
 	public function formulario(){
-		$this->load->view("medicos/formulario");
+		$this->load->template("medicos/formulario");
 	}
 
 	public function novo(){
@@ -41,7 +41,7 @@ class Medicos extends CI_Controller{
 			$this->session->set_flashdata("success", "Médico cadastrado com sucesso.");
 			redirect("/");
 		}else{
-			$this->load->view("medicos/formulario");
+			$this->load->template("medicos/formulario");
 		}
 		
 	}
