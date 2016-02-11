@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-Class Usuarios extends CI_Controller{
+Class Usuarios extends Auth_Controller{
 	public function novo(){
 		$usuario = array(
 			"nome" => $this->input->post("nome"),
@@ -11,5 +11,9 @@ Class Usuarios extends CI_Controller{
 		$this->load->model("usuarios_model");
 		$this->usuarios_model->salva($usuario);
 		$this->load->view("usuarios/novo");
+	}
+
+	public function cadastro(){
+		$this->load->template("usuarios/cadastro.php");
 	}
 }

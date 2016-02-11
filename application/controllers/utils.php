@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Utils extends CI_Controller{
+class Utils extends Auth_Controller{
 	public function migrate(){
 		$this->load->library("migration");
 		$success = $this->migration->current();

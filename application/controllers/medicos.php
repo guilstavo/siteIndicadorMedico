@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Medicos extends CI_Controller{
+class Medicos extends Auth_Controller{
 
 	public function mostra($id){
 		$this->load->model("medicos_model");
@@ -11,7 +11,6 @@ class Medicos extends CI_Controller{
 	}
 
 	public function index(){
-		
 		$this->load->model('medicos_model');
 		$medicos = $this->medicos_model->buscaTodos();
 		$dados = array("medicos" => $medicos);

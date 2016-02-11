@@ -41,6 +41,7 @@
 $route['default_controller'] = "medicos";
 $route['404_override'] = '';
 $route['medicos/(:num)'] = 'medicos/mostra/$1';
+$route['cadastro'] = 'usuarios/cadastro';
 
 
 /* End of file routes.php */
