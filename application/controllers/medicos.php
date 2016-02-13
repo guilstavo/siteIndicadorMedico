@@ -15,7 +15,6 @@ class Medicos extends Auth_Controller{
 		$medicos = $this->medicos_model->buscaTodos();
 		$dados = array("medicos" => $medicos);
 		$this->load->template("medicos/index.php",$dados);
-		
 	}
 
 	public function formulario(){
@@ -27,13 +26,17 @@ class Medicos extends Auth_Controller{
 		$this->form_validation->set_rules("nome", "nome", "required");
 		$this->form_validation->set_rules("especialidade", "especialidade", "required");
 		$this->form_validation->set_rules("telefone", "telefone", "required");
+		$this->form_validation->set_rules("endereco", "endereco", "required");
+		$this->form_validation->set_rules("crm", "crm", "required");
 		$this->form_validation->set_error_delimiters("<p class='alert alert-danger'>", "</p>");
 		$sucesso = $this->form_validation->run();
 		if($sucesso){
 			$medico = array(
 				"nome" => $this->input->post("nome"),
 				"especialidade" => $this->input->post("especialidade"),
-				"telefone" => $this->input->post("telefone")
+				"telefone" => $this->input->post("telefone"),
+				"endereco" => $this->input->post("endereco"),
+				"crm" => $this->input->post("crm")
 			);
 			$this->load->model("medicos_model");
 			$this->medicos_model->salva($medico);
