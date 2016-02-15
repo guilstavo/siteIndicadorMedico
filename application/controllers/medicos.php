@@ -5,7 +5,21 @@ class Medicos extends CI_Controller{
 	public function mostra($id){
 		$this->load->model("medicos_model");
 		$medico = $this->medicos_model->busca($id);
-		$dados = array("medico" => $medico);
+		
+
+		$this->load->library('googlemaps');
+
+		$config['zoom'] = 'auto';
+		$this->googlemaps->initialize($config);
+
+		$marker = array();
+		$marker['position'] = $medico['latitude'].', '.$medico['longitude'];
+		$this->googlemaps->add_marker($marker);
+
+		$dados = array(
+			"medico" => $medico, 
+			"map" => $this->googlemaps->create_map()
+		);
 		$this->load->helper("typography");
 		$this->load->template("medicos/mostra", $dados);
 	}

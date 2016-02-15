@@ -6,7 +6,6 @@
 		<th>Especialidade</th>
 		<th>Telefone</th>
 		<th>Endereço</th>
-		<th>CRM</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -16,7 +15,6 @@
 			<td><?= html_escape($medico['especialidade']) ?></td>
 			<td><?= html_escape($medico['telefone']) ?></td>
 			<td><?= html_escape($medico['endereco']) ?></td>
-			<td><?= html_escape($medico['crm']) ?></td>
 		</tr>
 	<?php endforeach ?>
 		</tbody>
