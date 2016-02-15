@@ -13,15 +13,9 @@ echo form_input(array(
 ));
 echo form_error("nome");
 
-echo form_label("Especialidade", "especialidade");
-echo form_input(array(
-	"name" => "especialidade",
-	"id" => "especialidade",
-	"class" => "form-control",
-	"maxlenght" => "255",
-	"value" => set_value("especialidade", "")
-));
-echo form_error("especialidade");
+echo form_label("Especialidade", "id_especialidade");
+echo form_dropdown('id_especialidade', $especialidades, '', 'class="form-control" id="id_especialidade"');
+echo form_error("id_especialidade");
 
 echo form_label("Telefone", "telefone");
 echo form_input(array(
@@ -32,6 +26,26 @@ echo form_input(array(
 	"value" => set_value("telefone", "")
 ));
 echo form_error("telefone");
+
+echo form_label("Endereço", "endereco");
+echo form_input(array(
+	"name" => "endereco",
+	"id" => "endereco",
+	"class" => "form-control",
+	"maxlenght" => "255",
+	"value" => set_value("endereco", "")
+));
+echo form_error("endereco");
+
+echo form_label("CRM", "crm");
+echo form_input(array(
+	"name" => "crm",
+	"id" => "crm",
+	"class" => "form-control",
+	"maxlenght" => "7",
+	"value" => set_value("crm", "")
+));
+echo form_error("crm");
 
 echo form_button(array(
 	"class" => "btn btn-primary",

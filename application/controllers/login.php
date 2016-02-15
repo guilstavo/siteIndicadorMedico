@@ -1,6 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Login extends CI_Controller{
+
 	public function autenticar(){
 		$this->load->model("usuarios_model");
 		$email = $this->input->post("email");
@@ -19,5 +20,9 @@ class Login extends CI_Controller{
 		$this->session->unset_userdata("usuario_logado");
 		$this->session->set_flashdata("success", "Deslogado com sucesso");
 		redirect('/');
+	}
+
+	public function index(){
+		$this->load->template("usuarios/login.php");
 	}
 }

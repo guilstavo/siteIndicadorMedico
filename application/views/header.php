@@ -2,13 +2,30 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Document</title>
+	<title>Indicador Médico - APM Santos</title>
 	<link rel="stylesheet" href="<?= base_url("css/bootstrap.css") ?>">
 	<link rel="stylesheet" href="<?= base_url("css/style.css") ?>">
 </head>
 <body>
+	<?php if($this->session->userdata("usuario_logado")) : ?>
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-collapse collapse" id="navbar">
+			  	<ul class="nav navbar-nav">
+			        <li class="active"><?= anchor(base_url(), 'Home', array("class" => "")) ?></li>
+			        <li><?= anchor('cadastro', 'Novo Usuário', array("class" => "")) ?></li>
+			        <li><?= anchor('medicos/formulario', 'Novo Médico', array("class" => "")) ?></li>
+			        <li><?= anchor('especialidades/novo', 'Nova Especialidade', array("class" => "")) ?></li>
+			  	</ul>
+			  	<ul class="nav navbar-nav navbar-right">
+					<li><?= anchor('login/logout', 'Logout', array("class" => "")) ?></li>
+			  	</ul>
+			</div><!--/.nav-collapse -->
+    	</div>
+    </nav>
+    <?php endif; ?>
 	<div class="container">
-		<?= anchor('http://apmsantos.org.br/indicadorMedico/', img(array(
+		<?= anchor(base_url(), img(array(
           'src' => 'images/logo.jpg',
           'alt' => 'APM Santos',
           'title' => 'APM Santos'
