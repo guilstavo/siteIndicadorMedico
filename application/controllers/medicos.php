@@ -40,51 +40,83 @@ class Medicos extends CI_Controller{
 		}else{
 			redirect('login');
 		}
+	}
+
+	public function formEditar($id){
+		if($this->session->userdata("usuario_logado")){
+			$this->load->model("medicos_model");
+			$medico = $this->medicos_model->busca($id);
+			$this->load->model("especialidades_model");
+			$especialidades = $this->especialidades_model->buscaDropdown();
+			$dados = array(
+				"especialidades" => $especialidades,
+				"medico" => $medico
+				);
+			$this->load->view("medicos/formulario", $dados);
+		}else{
+			redirect('login');
+		}
 		
 	}
 
-	public function novo(){
-		$this->load->library("form_validation");
-		$this->form_validation->set_rules("nome", "nome", "required");
-		$this->form_validation->set_rules("id_especialidade", "id_especialidade", "required");
-		$this->form_validation->set_rules("telefone", "telefone", "required");
-		$this->form_validation->set_rules("endereco", "endereco", "required");
-		$this->form_validation->set_rules("crm", "crm", "required");
-		$this->form_validation->set_error_delimiters("<p class='alert alert-danger'>", "</p>");
-		$sucesso = $this->form_validation->run();
-		if($sucesso){
-			$position = $this->getPosition($this->fixCapitalize($this->input->post("endereco")));
-			$medico = array(
-				"nome" => $this->fixCapitalize($this->input->post("nome")),
-				"id_especialidade" => $this->input->post("id_especialidade"),
-				"telefone" => $this->input->post("telefone"),
-				"endereco" => $this->fixCapitalize($this->input->post("endereco")),
-				"crm" => $this->input->post("crm"),
-				"latitude" => $position['latitude'],
-				"longitude" => $position['longitude']
-			);
-			$this->load->model("medicos_model");
-			$this->medicos_model->salva($medico);
-			$this->session->set_flashdata("success", "Médico cadastrado com sucesso.");
+	public function insertUpdate(){
+		if($this->session->userdata("usuario_logado")){
+			$this->load->library("form_validation");
+			$this->form_validation->set_rules("nome", "nome", "required");
+			$this->form_validation->set_rules("id_especialidade", "id_especialidade", "required");
+			$this->form_validation->set_rules("telefone", "telefone", "required");
+			$this->form_validation->set_rules("endereco", "endereco", "required");
+			$this->form_validation->set_rules("crm", "crm", "required");
+			$this->form_validation->set_error_delimiters("<p class='alert alert-danger'>", "</p>");
+			$sucesso = $this->form_validation->run();
+			if($sucesso){
+				$position = $this->getPosition($this->fixCapitalize($this->input->post("endereco")));
+				$medico = array(
+					"nome" => $this->fixCapitalize($this->input->post("nome")),
+					"id_especialidade" => $this->input->post("id_especialidade"),
+					"telefone" => $this->input->post("telefone"),
+					"endereco" => $this->fixCapitalize($this->input->post("endereco")),
+					"crm" => $this->input->post("crm"),
+					"latitude" => $position['latitude'],
+					"longitude" => $position['longitude']
+				);
+				$this->load->model("medicos_model");
+				if($this->input->post("id") == 0){
+					$this->medicos_model->insert($medico);
+					$this->session->set_flashdata("success", "Médico cadastrado com sucesso.");
+				}elseif($this->input->post("id") > 0){
+					$this->medicos_model->update($this->input->post("id"), $medico);
+					$this->session->set_flashdata("success", "Médico editado com sucesso.");
+				}
+				redirect("/");
+			}else{
+				$this->load->model("especialidades_model");
+				$especialidades = $this->especialidades_model->buscaDropdown();
+				$dados = array(
+					"especialidades" => $especialidades
+				);
+				$this->load->template("medicos/formulario", $dados);
+			}
+		}else{
+			redirect('login');
+		}
+	}
+
+	public function excluir($id){
+		if($this->session->userdata("usuario_logado")){
+			$this->db->delete('medicos', array('id' => $id));
+			$this->session->set_flashdata("success", "Médico deletado com sucesso.");
 			redirect("/");
 		}else{
-			$this->load->template("medicos/formulario");
+			redirect('login');
 		}
-		
 	}
 
 	private function fixCapitalize($str){
 		$str = mb_strtolower($str, 'UTF-8');
 		$strArr = explode(" ", $str);
-		$fixedStr = '';
-		foreach ($strArr as $word) {
-			$fixedStr .= ucfirst($word);
-			if (end($strArr)){
-				$fixedStr .= ' ';
-			}
-			
-		}
-		return $fixedStr;
+		$strArr = array_map('ucfirst', $strArr);
+		return implode(" ", $strArr);
 	}
 
 	private function getPosition($address){

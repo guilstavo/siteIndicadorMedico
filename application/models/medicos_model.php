@@ -33,7 +33,12 @@ class Medicos_model extends CI_Model{
         return $retorno;
     }
 
-	public function salva($medico){
+	public function insert($medico){
 		$this->db->insert("medicos", $medico);
 	}
+
+    public function update($id, $medico){
+        $this->db->where('id', $id);
+        $this->db->update("medicos", $medico);
+    }
 }

@@ -50,3 +50,7 @@ ul#lista_redes_sociais{
 	list-style-type: none;
 	display: inline-block;
 }
+.modal-body .submit-form, 
+.modal-body h1{
+	display: none;
+}

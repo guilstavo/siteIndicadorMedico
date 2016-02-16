@@ -23,4 +23,6 @@
 	</div>
 </footer>
 </body>
+<script type="text/javascript" src="<?= base_url("js/jquery.min.js") ?>" ></script>
+<script type="text/javascript" src="<?= base_url("js/bootstrap.min.js") ?>" ></script>
 </html>
