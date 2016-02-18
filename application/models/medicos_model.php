@@ -14,9 +14,12 @@ class Medicos_model extends CI_Model{
 
 	public function buscaTodos(){
 		//return $this->db->get("medicos")->result_array();
-		$this->db->select('*, medicos.id AS medid, medicos.nome AS nome, especialidades.nome AS especialidade');
+		$this->db->select('*, medicos.id AS medid, medicos.nome AS nome, especialidades.nome AS especialidade, GROUP_CONCAT(medicos_especialidades.id_especialidade) AS id_especialidade');
         $this->db->from('medicos');
-        $this->db->join('especialidades', 'medicos.id_especialidade = especialidades.id');
+        //$this->db->join('especialidades', 'medicos.id_especialidade = especialidades.id');
+        $this->db->join('medicos_especialidades', 'medicos.id=medicos_especialidades.id_medico', 'left');
+        $this->db->join('especialidades', 'especialidades.id=medicos_especialidades.id_especialidade', 'left');
+        $this->db->group_by('medid'); 
         $this->db->order_by("especialidade", "asc");
         return $query = $this->db->get()->result_array();
 	}

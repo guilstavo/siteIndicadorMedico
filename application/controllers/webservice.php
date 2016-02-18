@@ -11,4 +11,13 @@ class WebService extends CI_Controller{
 		$this->load->view("webservice/index.php",$dados);
 	}
 
+	public function especialidades(){
+		$this->load->model('especialidades_model');
+		$especialidades = $this->especialidades_model->buscaTodosUsados();
+		//$dados = json_encode($medicos, JSON_UNESCAPED_UNICODE);
+		$dados = json_encode($especialidades);
+		$dados = array("service" => $dados);
+		$this->load->view("webservice/index.php",$dados);
+	}
+
 }
