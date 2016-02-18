@@ -54,3 +54,11 @@ ul#lista_redes_sociais{
 .modal-body h1{
 	display: none;
 }
+label.checkbox{
+	font-weight: 400;
+}
+.form_label{
+	clear: left;
+    float: left;
+    margin-top: 10px;
+}

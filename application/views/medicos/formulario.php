@@ -4,7 +4,7 @@ echo form_open("medicos/insertUpdate");
 
 echo form_hidden("id", (isset($medico['medid']) ? $medico['medid'] : "0"));
 
-echo form_label("Nome", "nome");
+echo form_label("Nome", "nome", array('class' => 'form_label'));
 echo form_input(array(
 	"name" => "nome",
 	"id" => "nome",
@@ -15,10 +15,21 @@ echo form_input(array(
 echo form_error("nome");
 
 echo form_label("Especialidade", "id_especialidade");
-echo form_dropdown('id_especialidade', $especialidades, (isset($medico['id_especialidade']) ? $medico['id_especialidade'] : ""), 'class="form-control" id="id_especialidade"');
+echo "<br />";
+$data = array();
+foreach ($especialidades as $especialidade) {
+	$data = array(
+			'name'        => 'id_especialidade[]',
+		    'value'       => $especialidade['id'],
+		    'checked'     => FALSE,
+		    'class'       => 'checkbox_especialidade'
+		);
+	echo form_label(form_checkbox($data) . $especialidade['nome'], "Especialidade", array('class' => 'checkbox col-sm-3 col-xs-12'));
+};
 echo form_error("id_especialidade");
+echo "<br />";
 
-echo form_label("Endereço", "endereco");
+echo form_label("Endereço", "endereco", array('class' => 'form_label'));
 echo form_input(array(
 	"name" => "endereco",
 	"id" => "endereco",
@@ -28,7 +39,7 @@ echo form_input(array(
 ));
 echo form_error("endereco");
 
-echo form_label("Telefone", "telefone");
+echo form_label("Telefone", "telefone", array('class' => 'form_label'));
 echo form_input(array(
 	"name" => "telefone",
 	"id" => "telefone",
@@ -38,7 +49,7 @@ echo form_input(array(
 ));
 echo form_error("telefone");
 
-echo form_label("CRM", "crm");
+echo form_label("CRM", "crm", array('class' => 'form_label'));
 echo form_input(array(
 	"name" => "crm",
 	"id" => "crm",

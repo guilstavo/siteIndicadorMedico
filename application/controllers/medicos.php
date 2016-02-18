@@ -33,10 +33,10 @@ class Medicos extends CI_Controller{
 		$this->load->template("medicos/index.php",$dados);
 	}
 
-	public function formulario(){
+	public function novo(){
 		if($this->session->userdata("usuario_logado")){
 			$this->load->model("especialidades_model");
-			$especialidades = $this->especialidades_model->buscaDropdown();
+			$especialidades = $this->especialidades_model->buscaTodos();
 			$dados = array("especialidades" => $especialidades);
 			$this->load->template("medicos/formulario", $dados);
 		}else{
@@ -72,19 +72,29 @@ class Medicos extends CI_Controller{
 			$this->form_validation->set_error_delimiters("<p class='alert alert-danger'>", "</p>");
 			$sucesso = $this->form_validation->run();
 			if($sucesso){
+				// echo '<pre>';
+				// var_dump($this->input->post());
+				// echo '</pre>';
 				$position = $this->getPosition($this->fixCapitalize($this->input->post("endereco")));
 				$medico = array(
 					"nome" => $this->fixCapitalize($this->input->post("nome")),
-					"id_especialidade" => $this->input->post("id_especialidade"),
 					"telefone" => $this->input->post("telefone"),
 					"endereco" => $this->fixCapitalize($this->input->post("endereco")),
 					"crm" => $this->input->post("crm"),
 					"latitude" => $position['latitude'],
 					"longitude" => $position['longitude']
 				);
-				$this->load->model("medicos_model");
+				$especialidades = $this->input->post("id_especialidade");
+				$this->load->model(array("medicos_model", "medicos_especialidades_model"));
 				if($this->input->post("id") == 0){
-					$this->medicos_model->insert($medico);
+					$insert_id = $this->medicos_model->insert($medico);
+					foreach($especialidades as $especialidade){
+						$medico_especialidade = array(
+							"id_medico" => $insert_id,
+							"id_especialidade" => $especialidade
+						);
+						$this->medicos_especialidades_model->insert($medico_especialidade);
+					};
 					$this->session->set_flashdata("success", "Médico cadastrado com sucesso.");
 				}elseif($this->input->post("id") > 0){
 					$this->medicos_model->update($this->input->post("id"), $medico);

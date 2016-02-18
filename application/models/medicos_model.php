@@ -38,6 +38,7 @@ class Medicos_model extends CI_Model{
 
 	public function insert($medico){
 		$this->db->insert("medicos", $medico);
+        return $this->db->insert_id();
 	}
 
     public function update($id, $medico){
