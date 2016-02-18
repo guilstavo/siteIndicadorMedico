@@ -1,29 +1,30 @@
-<h1>Médicos</h1>
-<table class="table">
-	<thead>
-	<tr>
-		<th>Nome</th>
-		<th>Especialidade</th>
-		<th>Telefone</th>
-		<th>Endereço</th>
-	</tr>
-	</thead>
-	<tbody>
-	<?php foreach($medicos as $medico) : ?>
+<?php foreach($especialidades as $especialidade) : ?>
+	<h1><?= $especialidade['nome'] ?></h1>
+	<table class="table">
+		<thead>
 		<tr>
-			<td><?= anchor("medicos/{$medico['medid']}", html_escape($medico['nome'])) ?></td>
-			<td><?= html_escape($medico['especialidade']) ?></td>
-			<td><?= html_escape($medico['telefone']) ?></td>
-			<td><?= html_escape($medico['endereco']) ?></td>
-			<?php if($this->session->userdata("usuario_logado")) : ?>
-				<td><?php echo anchor("medicos/formEditar/{$medico['medid']}", 'Editar', array("class" => "btn btn-warning btn-modal", "id" => "Editar")); ?></td>
-				<td><?php echo anchor("medicos/excluir/{$medico['medid']}", 'Excluir', array("class" => "btn btn-danger btn-modal", "id" => "Excluir")); ?></td>
-			<?php endif; ?>
+			<th>Nome</th>
+			<th>Telefone</th>
+			<th>Endereço</th>
 		</tr>
-	<?php endforeach ?>
-	</tbody>
-</table>
-
+		</thead>
+		<tbody>
+		<?php foreach($medicos as $medico) : ?>
+			<?php if($medico['id_especialidade'] == $especialidade['id']) : ?>
+				<tr>
+					<td><?= anchor("medicos/{$medico['medid']}", html_escape($medico['nome'])) ?></td>
+					<td><?= html_escape($medico['telefone']) ?></td>
+					<td><?= html_escape($medico['endereco']) ?></td>
+					<?php if($this->session->userdata("usuario_logado")) : ?>
+						<td><?php echo anchor("medicos/formEditar/{$medico['medid']}", 'Editar', array("class" => "btn btn-warning btn-modal", "id" => "Editar")); ?></td>
+						<td><?php echo anchor("medicos/excluir/{$medico['medid']}", 'Excluir', array("class" => "btn btn-danger btn-modal", "id" => "Excluir")); ?></td>
+					<?php endif; ?>
+				</tr>
+			<?php endif; ?>
+		<?php endforeach ?>
+		</tbody>
+	</table>
+<?php endforeach ?>
 <div class="modal fade bs-example-modal-lg" id="modalEditarCliente" >
 	<div class="modal-dialog">
 		<div class="modal-content">

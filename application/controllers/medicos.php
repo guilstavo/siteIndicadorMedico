@@ -25,9 +25,11 @@ class Medicos extends CI_Controller{
 	}
 
 	public function index(){
-		$this->load->model('medicos_model');
+		$this->load->model(array('medicos_model', 'especialidades_model'));
+		//$this->load->model('especialidades_model');
 		$medicos = $this->medicos_model->buscaTodos();
-		$dados = array("medicos" => $medicos);
+		$especialidades = $this->especialidades_model->buscaTodosUsados();
+		$dados = array("medicos" => $medicos, "especialidades" => $especialidades);
 		$this->load->template("medicos/index.php",$dados);
 	}
 
