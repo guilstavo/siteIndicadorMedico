@@ -15,4 +15,8 @@ class Medicos_especialidades_model extends CI_Model{
 		$this->db->insert("medicos_especialidades", $medico_especialidade);
 		return $this->db->insert_id();
 	}
+
+	public function deleteMedico($id_medico){
+		return $this->db->delete('medicos_especialidades', array('id_medico' => $id_medico));
+	}
 }

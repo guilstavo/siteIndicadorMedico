@@ -26,14 +26,23 @@ class Medicos extends CI_Controller{
 
 	public function index(){
 		$this->load->model(array('medicos_model', 'especialidades_model'));
-		//$this->load->model('especialidades_model');
 		$medicos = $this->medicos_model->buscaTodos();
 		$especialidades = $this->especialidades_model->buscaTodosUsados();
 		$dados = array("medicos" => $medicos, "especialidades" => $especialidades);
 		$this->load->template("medicos/index.php",$dados);
 	}
 
-	public function novo(){
+	public function listaedicao(){
+		$this->load->model('medicos_model');
+		$medicos = $this->medicos_model->buscaTodosComEspecialidades();
+		// echo '<pre>';
+		// var_dump($medicos);
+		// echo '</pre>';
+		$dados = array("medicos" => $medicos);
+		$this->load->template("medicos/listaedicao.php",$dados);
+	}
+
+	public function formulario(){
 		if($this->session->userdata("usuario_logado")){
 			$this->load->model("especialidades_model");
 			$especialidades = $this->especialidades_model->buscaTodos();
@@ -49,7 +58,7 @@ class Medicos extends CI_Controller{
 			$this->load->model("medicos_model");
 			$medico = $this->medicos_model->busca($id);
 			$this->load->model("especialidades_model");
-			$especialidades = $this->especialidades_model->buscaDropdown();
+			$especialidades = $this->especialidades_model->buscaTodos();
 			$dados = array(
 				"especialidades" => $especialidades,
 				"medico" => $medico
@@ -87,19 +96,22 @@ class Medicos extends CI_Controller{
 				$especialidades = $this->input->post("id_especialidade");
 				$this->load->model(array("medicos_model", "medicos_especialidades_model"));
 				if($this->input->post("id") == 0){
-					$insert_id = $this->medicos_model->insert($medico);
-					foreach($especialidades as $especialidade){
-						$medico_especialidade = array(
-							"id_medico" => $insert_id,
-							"id_especialidade" => $especialidade
-						);
-						$this->medicos_especialidades_model->insert($medico_especialidade);
-					};
+					$id_medico = $this->medicos_model->insert($medico);
+					
 					$this->session->set_flashdata("success", "Médico cadastrado com sucesso.");
 				}elseif($this->input->post("id") > 0){
-					$this->medicos_model->update($this->input->post("id"), $medico);
+					$id_medico = $this->input->post("id");
+					$this->medicos_model->update($id_medico, $medico);
+					$this->medicos_especialidades_model->deleteMedico($id_medico);
 					$this->session->set_flashdata("success", "Médico editado com sucesso.");
 				}
+				foreach($especialidades as $especialidade){
+					$medico_especialidade = array(
+						"id_medico" => $id_medico,
+						"id_especialidade" => $especialidade
+					);
+					$this->medicos_especialidades_model->insert($medico_especialidade);
+				};
 				redirect("/");
 			}else{
 				$this->load->model("especialidades_model");
@@ -116,7 +128,9 @@ class Medicos extends CI_Controller{
 
 	public function excluir($id){
 		if($this->session->userdata("usuario_logado")){
+			$this->load->model("medicos_especialidades_model");
 			$this->db->delete('medicos', array('id' => $id));
+			$this->medicos_especialidades_model->deleteMedico($id);
 			$this->session->set_flashdata("success", "Médico deletado com sucesso.");
 			redirect("/");
 		}else{

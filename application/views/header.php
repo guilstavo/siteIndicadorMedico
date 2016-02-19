@@ -14,8 +14,15 @@
 			  	<ul class="nav navbar-nav">
 			        <li class="active"><?= anchor(base_url(), 'Home', array("class" => "")) ?></li>
 			        <li><?= anchor('cadastro', 'Novo Usuário', array("class" => "")) ?></li>
-			        <li><?= anchor('medicos/formulario', 'Novo Médico', array("class" => "")) ?></li>
-			        <li><?= anchor('especialidades/novo', 'Nova Especialidade', array("class" => "")) ?></li>
+			        <li class="dropdown">
+		                <a aria-expanded="false" aria-haspopup="true" role="button" data-toggle="dropdown" class="dropdown-toggle" href="#">Médicos <span class="caret"></span></a>
+		                <ul class="dropdown-menu">
+		                  	<li><?= anchor('medicos/formulario', 'Novo Médico', array("class" => "")) ?></li>
+		                  	<li><?= anchor('medicos/listaedicao', 'Editar ou Excluir', array("class" => "")) ?></li>
+			        		<li><?= anchor('especialidades/novo', 'Nova Especialidade', array("class" => "")) ?></li>
+
+		                </ul>
+		            </li>
 			  	</ul>
 			  	<ul class="nav navbar-nav navbar-right">
 					<li><?= anchor('login/logout', 'Logout', array("class" => "")) ?></li>

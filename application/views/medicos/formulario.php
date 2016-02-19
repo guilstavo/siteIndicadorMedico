@@ -17,11 +17,14 @@ echo form_error("nome");
 echo form_label("Especialidade", "id_especialidade");
 echo "<br />";
 $data = array();
+$medicoEspecialidades = isset($medico['especialidade']) ? explode(',', $medico['especialidade']) : array();
 foreach ($especialidades as $especialidade) {
+	//$check = ($medico['id_especialidade'] == $especialidade ? TRUE : FALSE);
+	$check = in_array($especialidade['nome'], $medicoEspecialidades) ? 'TRUE' : FALSE;
 	$data = array(
 			'name'        => 'id_especialidade[]',
 		    'value'       => $especialidade['id'],
-		    'checked'     => FALSE,
+		    'checked'     => $check,
 		    'class'       => 'checkbox_especialidade'
 		);
 	echo form_label(form_checkbox($data) . $especialidade['nome'], "Especialidade", array('class' => 'checkbox col-sm-3 col-xs-12'));
