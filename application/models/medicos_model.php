@@ -2,10 +2,6 @@
 class Medicos_model extends CI_Model{
 
 	public function busca($id){
-		// return $this->db->get_where("medicos", array(
-		// 	"id" => $id
-		// ))->row_array();
-		//$this->db->select('*, medicos.id AS medid, medicos.nome AS nome, especialidades.nome AS especialidade');
         $this->db->select('*, medicos.id AS medid, medicos.nome AS nome, GROUP_CONCAT(especialidades.nome) AS especialidade');
         $this->db->from('medicos');
         $this->db->join('medicos_especialidades', 'medicos.id=medicos_especialidades.id_medico', 'left');
@@ -16,13 +12,10 @@ class Medicos_model extends CI_Model{
 	}
 
 	public function buscaTodos(){
-		//return $this->db->get("medicos")->result_array();
 		$this->db->select('*, medicos.id AS medid, medicos.nome AS nome, especialidades.nome AS especialidade');
         $this->db->from('medicos');
-        //$this->db->join('especialidades', 'medicos.id_especialidade = especialidades.id');
         $this->db->join('medicos_especialidades', 'medicos.id=medicos_especialidades.id_medico', 'left');
         $this->db->join('especialidades', 'especialidades.id=medicos_especialidades.id_especialidade', 'left');
-        //$this->db->group_by('medid');
         $this->db->order_by("especialidade", "asc");
         return $query = $this->db->get()->result_array();
 	}
@@ -37,10 +30,19 @@ class Medicos_model extends CI_Model{
         return $query = $this->db->get()->result_array();
     }
 
+    public function buscaMedicosDeEspecialidade($id){
+        $this->db->select('*, medicos.id AS medid, medicos.nome AS nome, especialidades.nome AS especialidade');
+        $this->db->from('medicos');
+        $this->db->join('medicos_especialidades', 'medicos.id=medicos_especialidades.id_medico', 'left');
+        $this->db->join('especialidades', 'especialidades.id=medicos_especialidades.id_especialidade', 'left');
+        $this->db->order_by("especialidade", "asc");
+        $this->db->where("especialidades.id", $id);
+        return $query = $this->db->get()->result_array();
+    }
+
 	function getJson() {
         $this->db->select('nome');
         $this->db->from('medicos');
-        //$this->db->where('table_1.column_name', $uniq_id);
         $query = $this->db->get();
         foreach($query->result() as $row)
         {

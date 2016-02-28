@@ -41,6 +41,8 @@
 $route['default_controller'] = "medicos";
 $route['404_override'] = '';
 $route['medicos/(:num)'] = 'medicos/mostra/$1';
+$route['webservice/medicosEspecialistas(:num)'] = 'webservice/medicosEspecialistas/$1';
+$route['webservice/medico(:num)'] = 'webservice/medico/$1';
 $route['cadastro'] = 'usuarios/cadastro';
 $route['login'] = 'login/index';
 
